@@ -16,18 +16,27 @@ object ClimateService {
    * @param description "my awesome sentence contains a key word like climate change"
    * @return Boolean True
    */
-  def isClimateRelated(description: String): Boolean = ???
-
-  /**
-   * parse a list of raw data and transport it with type into a list of CO2Record
-   * if the ppm value is valid (some ppm values are negative (CO2Record's "isValidPpmValue" function))
-   * --> Some(value)
-   * otherwise : None
-   * you can access to Tuple with myTuple._1, myTuple._2, myTuple._3
-   */
+  def isClimateRelated(description: String): Boolean = {
+      val a ="climat"
+      (description.contains(a))
+  }
+//Option (potentiellement donné que je vas lire ca va etre faux)
   def parseRawData(list: List[(Int, Int, Double)]) : List[Option[CO2Record]] = {
-    list.map { record => ??? }
-    ???
+    //map applique qqlchose a to les element d'une list
+    list.map { record => {
+      val year =record._1
+      val month =record._2
+      val ppm =record._3
+      //Create instance of CO22Record
+      val co2Record= CO2Record(year,month,ppm)
+      if ( co2Record.isValidPpmValue){
+        Some(co2Record)
+      } else {
+        None
+      }
+
+    }}
+ 
   }
 
   /**
@@ -35,15 +44,20 @@ object ClimateService {
    *
    * @param list
    * @return a list
+   * list: List[Option[CO2Record]]) : List[CO2Record] a  gauche entrée à droite sortie
    */
-  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = ???
-
-  /**
+  def filterDecemberData(list: List[Option[CO2Record]]) : List[CO2Record] = {
+    /**
    * display every item on the list using the CO2Record's "show" function
    *
    * Bonus: for quality check : count how many None values we have
    * @param list
    */
+    list.filter(record => record.get.month != 12).map(record => record.get)
+  }
+
+  
+  
   def showCO2Data(list: List[Option[CO2Record]]) : Unit = {
     logger.info("Call ClimateService.filterDecemberData here")
 
