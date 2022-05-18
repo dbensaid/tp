@@ -17,6 +17,8 @@ object Main {
 
     logger.info("Stopping the app")
     System.exit(0)
+    
   }
 }
 
+ 
